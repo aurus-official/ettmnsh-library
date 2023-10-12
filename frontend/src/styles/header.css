@@ -1,0 +1,82 @@
+@import url("https://fonts.googleapis.com/css?family=Poppins");
+
+* {
+    padding: 0;
+    margin: 0;
+    font-family: 'Poppins';
+    overflow: hidden;
+}
+
+.image-container {
+    position: relative;
+    text-align: center;
+}
+
+.header-image {
+    aspect-ratio: 16/7;
+    width: 100%;
+    filter: brightness(25%);
+}
+
+.header-title {
+    position: absolute;
+    color: white;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.main-title {
+    top: 38%;
+    font-size: 4rem;
+    line-height: 4.5rem;
+}
+
+.header-title-effect {
+    color: #8cfa8c;
+    background-position: center;
+    background-size: 110% auto;
+}
+
+.sub-title {
+    top: 65%;
+    font-size: 2rem;
+}
+
+.header-learnmore, .header-search {
+    border-style: none;
+    position: absolute;
+    top: 65%;
+    transform: translate(-50%, -50%);
+    padding: 1.2em 1.8em;
+    cursor: pointer;
+    background-color: whitesmoke;
+    border-radius: 0.25em;
+    font-weight: bold;
+    letter-spacing: 0.1em;
+}
+
+.header-learnmore::before, .header-search::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 100%;
+    background-color: #8cfa8c;
+    z-index: -1;
+    transition-timing-function: ease-in-out;
+    transition: all 1s;
+}
+
+.header-learnmore:hover::before, .header-search:hover::before {
+    width: 100%;
+}
+
+.header-learnmore {
+    left: 43%;
+}
+
+.header-search {
+    left: 56%;
+}
+
