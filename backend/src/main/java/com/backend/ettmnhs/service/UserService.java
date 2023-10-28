@@ -24,15 +24,12 @@ public class UserService {
         ConfPassStatus confPassStatus = new ConfPassStatus();
 
         feedback.setUsernameColorLabel(usernameStatus.getColor(feedback.getUsername()));
-        System.out.println(usernameStatus.getColor(feedback.getUsername()));
         feedback.setPasswordColorLabel(passwordStatus.getColor(feedback.getPassword()));
         feedback.setConfpasswordColorLabel(confPassStatus.getColor(feedback.getConfirmedpassword()));
     }
 
     public void postToDatabase(User user, UserValidationRemark feedback) {
-        if (this.isValidationPassed(feedback)) {
-            this.userRepository.save(user);
-        }
+        this.userRepository.save(user);
     }
     
     public void validateUsername(User user, UserValidationRemark feedback) {
@@ -56,6 +53,7 @@ public class UserService {
             return;
         }
         feedback.setUsername(usernameStatus.getFeedback(Status.VALID));
+        feedback.setUserAccountName(user.getUsername());
     }
 
     public void validatePassword(User user, UserValidationRemark feedback) {
@@ -80,8 +78,6 @@ public class UserService {
         String password = user.getPassword();
         String confirmedpassword = user.getConfirmedpassword();
         ConfPassStatus confPassStatus = new ConfPassStatus();
-        System.out.println(password);
-        System.out.println(confirmedpassword);
         if (password.isBlank() || confirmedpassword.isBlank()) {
             feedback.setConfirmedpassword(confPassStatus.getFeedback(Status.BLANK));
             return;
@@ -93,7 +89,28 @@ public class UserService {
         feedback.setConfirmedpassword(confPassStatus.getFeedback(Status.VALID));
     }
 
-    private boolean isValidationPassed(UserValidationRemark feedback) {
+    public boolean isLoginValidationPassed(User user, UserValidationRemark feedback) {
+        String userUsername = user.getUsername();
+        String userPassword = user.getPassword();
+        List<User> listOfUser = this.userRepository.findByUsername(userUsername);
+
+        if (listOfUser.size() == 0) {
+            feedback.setUsername("* USER DOESN'T EXISTS");
+            return false;
+        }
+
+        String dataUserPassword = listOfUser.get(0).getPassword();
+
+        if (userPassword.compareTo(dataUserPassword) != 0) {
+            feedback.setPassword("* WRONG PASSWORD");
+            return false;
+        }
+
+        feedback.setUserAccountName(userUsername);
+        return true;
+    }
+
+    public boolean isSignUpValidationPassed(UserValidationRemark feedback) {
         String username = feedback.getUsername();
         String password = feedback.getPassword();
         String confirmedpassword = feedback.getConfirmedpassword();
@@ -103,12 +120,8 @@ public class UserService {
         boolean isUsernamePassed = username.compareTo(usernameStatus.getFeedback(Status.VALID)) == 0;
         boolean isPasswordPassed = password.compareTo(passwordStatus.getFeedback(Status.VALID)) == 0;
         boolean isConfirmedPasswordPassed = confirmedpassword.compareTo(confPassStatus.getFeedback(Status.VALID)) == 0;
-        System.out.println(isUsernamePassed);
-        System.out.println(isPasswordPassed);
-        System.out.println(isConfirmedPasswordPassed);
 
         if (isUsernamePassed && isPasswordPassed && isConfirmedPasswordPassed) {
-            System.out.println("* Passed Validation!");
             return true;
         }
 
@@ -127,7 +140,6 @@ public class UserService {
             return false;
         }
         return true;
-
     }
 
     private boolean hasMaxChar(String password) {

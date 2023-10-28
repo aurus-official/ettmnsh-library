@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "../styles/signupform.css"
 
-export default function SignUpForm({showToggle}) {
+export default function SignUpForm({functions}) {
     const [user, setUserState] = useState({
         username: "",
         password: "",
@@ -10,8 +10,8 @@ export default function SignUpForm({showToggle}) {
         passwordColorLabel : "",
         confpasswordColorLabel : ""
     })
-    const [status, setStatus] = useState({})
 
+    const {propToSignUp, propToLogin, handleFeedback, feedback} = functions;
 
     function onInfoChange(event) {
         let element = event.target
@@ -21,9 +21,8 @@ export default function SignUpForm({showToggle}) {
     function onCloseTrigger(event)  {
         const isOutsideClicked = event.target.classList.contains("overlay-container");
         if (isOutsideClicked) {
-            showToggle();
+            propToSignUp()
         }
-        
     }
 
     const sleep = ms => new Promise(r => setTimeout(r, ms));
@@ -31,7 +30,7 @@ export default function SignUpForm({showToggle}) {
     async function onPostInfo(event) {
         event.preventDefault();
         try {
-            const response = await fetch("http://localhost:8080/user", {
+            const response = await fetch("https://special-related-stingray.ngrok-free.app/signup", {
                 method: "POST",
                 mode: 'cors',
                 headers: {
@@ -44,7 +43,8 @@ export default function SignUpForm({showToggle}) {
             })
 
             const data = await response.json()
-            setStatus(data) 
+            handleFeedback(data)
+
             setUserState(() => ({username : "", 
                 password : "", 
                 confirmedpassword : "", 
@@ -53,21 +53,17 @@ export default function SignUpForm({showToggle}) {
                 confpasswordColorLabel : ""
             }))
 
-            setStatus((prevObj) => ({
-                ...prevObj,
-                "username" : data.username,
-                "password" : data.password,
-                "usernameColorLabel" : data.usernameColorLabel,
-                "passwordColorLabel" : data.passwordColorLabel,
-                "confpasswordColorLabel" : data.confpasswordColorLabel,
-            }))
+            if (response.ok) {
+                await sleep(1000)
+                propToSignUp()
+                await sleep(1000)
+                propToLogin()
+            }
 
-            await sleep(2000)
 
         } catch (exception) {
-            console.error("An error occured.")
+            console.error(exception)
         }
-        setUserState(() => ({username : "", password : "", confirmedpassword : ""}))
     }
 
     return (
@@ -76,13 +72,13 @@ export default function SignUpForm({showToggle}) {
                 <h1 className="signup-title">SIGN UP</h1>
                 <form className="signupform-container">
                     <input name="username" onChange={onInfoChange} value={user.username} autoComplete="on" placeholder="Username" id="username-input" type="text" />
-                    <label style={{color : status.usernameColorLabel}} htmlFor="username-input">{status.hasOwnProperty("username") ? status.username : "* REQUIRED"}</label>
+                    <label style={{color : feedback.usernameColorLabel}} htmlFor="username-input">{feedback.hasOwnProperty("username") ? feedback.username : "* REQUIRED"}</label>
 
                     <input name="password" onChange={onInfoChange} value={user.password} placeholder="Password" id="passw-input" type="password" />
-                    <label style={{color : status.passwordColorLabel}} htmlFor="passw-input">{status.hasOwnProperty("password") ? status.password : "* REQUIRED"}</label>
+                    <label style={{color : feedback.passwordColorLabel}} htmlFor="passw-input">{feedback.hasOwnProperty("password") ? feedback.password : "* REQUIRED"}</label>
 
                     <input name="confirmedpassword" onChange={onInfoChange} value={user.confirmedpassword} placeholder="Confirm Password" id="confirm-password" type="password" />
-                    <label style={{color : status.confpasswordColorLabel}} htmlFor="confirm-password">{status.hasOwnProperty("confirmedpassword") ? status.confirmedpassword : "* REQUIRED"}</label>
+                    <label style={{color : feedback.confpasswordColorLabel}} htmlFor="confirm-password">{feedback.hasOwnProperty("confirmedpassword") ? feedback.confirmedpassword : "* REQUIRED"}</label>
 
                     <button className="signup-submit" onClick={onPostInfo} type="submit">SUBMIT</button>
                 </form>

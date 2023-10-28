@@ -1,0 +1,50 @@
+body {
+    background-color: #fffafa;
+}
+
+.main-container {
+    display: flex;
+    flex-direction: row;
+    margin: 1.4em 3em;
+}
+
+.input-container {
+    display: flex;
+    justify-content: center;
+}
+
+.section-container {
+    width: 100%;
+}
+
+.input-query {
+    font-size: 1.25rem;
+    padding: 0.25em 0.25em ;
+    width: 70%;
+    border: solid #191c19 0.1em;
+    margin: 0.3em 1em 0.3em 0;
+    background-color: inherit;
+}
+
+.input-query::placeholder {
+    color: black;
+}
+
+.submit-query {
+    padding: 0.5em 1.25em;
+    align-self: center;
+    border: solid #191c19 0.125em;
+    background-color: #8cfa8c;
+    font-weight: bold;
+    cursor: pointer;
+    letter-spacing: 0.1em;
+}
+
+.cards-container {
+    display: grid;
+    grid-template-columns: 12vw 12vw 12vw 12vw 12vw 12vw 12vw;
+    justify-content: space-evenly;
+    margin-top: 2em;
+    row-gap: 1em;
+    column-gap: 0.2em;
+}

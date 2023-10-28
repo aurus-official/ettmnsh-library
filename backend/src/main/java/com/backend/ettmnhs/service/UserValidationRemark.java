@@ -8,6 +8,7 @@ public class UserValidationRemark extends User {
     private String usernameColorLabel;
     private String passwordColorLabel;
     private String confpasswordColorLabel;
+    private String userAccountName;
 
     public String getUsernameColorLabel() {
         return usernameColorLabel;
@@ -32,4 +33,12 @@ public class UserValidationRemark extends User {
     public void setConfpasswordColorLabel(String confpasswordColorLabel) {
         this.confpasswordColorLabel = confpasswordColorLabel;
     }
+
+    public String getUserAccountName() {
+        return userAccountName;
+    }
+
+    public void setUserAccountName(String userAccountName) {
+        this.userAccountName = userAccountName;
+    } 
 }

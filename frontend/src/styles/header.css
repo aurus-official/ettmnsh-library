@@ -1,61 +1,66 @@
-@import url("https://fonts.googleapis.com/css?family=Poppins");
-
-* {
-    padding: 0;
-    margin: 0;
-    font-family: 'Poppins';
+.header-container {
     overflow: hidden;
-}
-
-.image-container {
     position: relative;
-    text-align: center;
+    height: 100vh;
 }
 
-.header-image {
-    aspect-ratio: 16/7;
+.header-container::before {
+    content: "";
+    overflow: hidden;
+    height: 100%;
     width: 100%;
+    left: 0;
+    right: 0;
+    position: absolute;
+    background-image: url(../assets/library.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
     filter: brightness(25%);
 }
 
 .header-title {
+    overflow: hidden;
     position: absolute;
     color: white;
     left: 50%;
     transform: translate(-50%, -50%);
+    text-align: center;
 }
 
 .main-title {
-    top: 38%;
+    overflow: hidden;
+    top: 30%;
     font-size: 4rem;
     line-height: 4.5rem;
 }
 
 .header-title-effect {
+    overflow: hidden;
     color: #8cfa8c;
-    background-position: center;
-    background-size: 110% auto;
+    font-size: 4rem;
 }
 
-.sub-title {
-    top: 65%;
-    font-size: 2rem;
-}
-
-.header-learnmore, .header-search {
-    border-style: none;
-    position: absolute;
-    top: 65%;
+.header-buttons {
+    position: relative;
+    inset: 50%;
     transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+}
+
+.header-signup  {
+    border-style: none;
+    position: relative;
     padding: 1.2em 1.8em;
     cursor: pointer;
     background-color: whitesmoke;
     border-radius: 0.25em;
     font-weight: bold;
+    z-index: 0;
     letter-spacing: 0.1em;
 }
 
-.header-learnmore::before, .header-search::before {
+.header-signup::before {
     content: '';
     position: absolute;
     top: 0;
@@ -68,15 +73,30 @@
     transition: all 1s;
 }
 
-.header-learnmore:hover::before, .header-search:hover::before {
+.header-signup:hover::before  {
     width: 100%;
 }
 
-.header-learnmore {
-    left: 43%;
+@media only screen and (max-width: 1919px) and (min-width: 1365px) {
 }
 
-.header-search {
-    left: 56%;
+@media only screen and (max-width: 1919px) and (min-width: 1680px) {
+    .header-title-effect, .main-title {
+        font-size: 6rem;
+        line-height: 6rem;
+    }
+    .header-buttons {
+        top: 50%;
+    }
 }
 
+@media only screen and (max-width: 2560px) and (min-width : 1920px) {
+    .header-title-effect, .main-title {
+        top: 35%;
+        font-size: 6rem;
+        line-height: 6rem;
+    }
+    .header-buttons {
+        top: 62.5%;
+    }
+}

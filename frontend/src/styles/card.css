@@ -1,0 +1,22 @@
+.card-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    padding-bottom: 0.3em;
+    cursor: pointer;
+}
+
+.coverImage {
+    aspect-ratio: 12/15;
+    border: solid #191c19 0.15em;
+    border-radius: 0.5em;
+    width: 8em;
+}
+
+.title {
+    text-align: center;
+    font-size: 0.9rem;
+    padding-top: 0.4em;
+}
+
